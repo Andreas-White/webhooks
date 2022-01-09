@@ -1,41 +1,59 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import express from 'express'
+import hbs from 'express-hbs'
+import dir from 'path'
+import logger from 'morgan'
+import session from 'express-session'
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import indexRouter from './routes/index.js'
+import usersRouter from './routes/users.js'
 
-var app = express();
+const app = express()
+const __dirname = dir.resolve()
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// Setup view engine.
+app.engine(
+  'hbs',
+  hbs.express4({
+    defaultLayout: dir.join(__dirname, 'views', 'layouts', 'default'),
+    partialsDir: dir.join(__dirname, 'views', 'partials'),
+  })
+)
+app.set('views', dir.join(__dirname, 'views'))
+app.set('view engine', 'hbs')
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.static(dir.join(__dirname, 'public')))
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Setup session
+app.use(
+  session({
+    name: 'snippets',
+    resave: false,
+    saveUninitialized: false,
+    secret: '*A&sd(Ddf*43&54*12Y43ud',
+  })
+)
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// Routes
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// 404 error handling
+app.use((req, res, next) => {
+  res.status(404)
+  res.sendFile(dir.join(__dirname, 'public', 'html', 'errors', '404.html'))
+})
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// 500 error handling
+app.use((error, req, res, next) => {
+  res.status(error.status || 500)
+  res.sendFile(dir.join(__dirname, 'public', 'html', 'errors', '500.html'))
+})
 
-module.exports = app;
+// listen to port 3000
+app.listen(3000, () => {
+  console.log('Server started on http://localhost:3000')
+  console.log('Press Ctrl-C to terminate...')
+})
