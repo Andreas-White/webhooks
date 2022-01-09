@@ -8,6 +8,8 @@ router.get('/', function (req, res, next) {
 })
 
 router.post('/', function (req, res, next) {
+  console.log('Received webhook request to /webhook-receive')
+  console.log('Request body:')
   console.log(req.body)
 })
 
