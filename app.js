@@ -37,8 +37,8 @@ app.use(
 )
 
 // Routes
-app.use('/mysite/webhooks', indexRouter)
-app.use('/mysite/webhooks/users', usersRouter)
+app.use('/webhooks', indexRouter)
+app.use('/webhooks/users', usersRouter)
 
 // 404 error handling
 app.use((req, res, next) => {
