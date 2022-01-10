@@ -4,7 +4,7 @@ import dir from 'path'
 import logger from 'morgan'
 import session from 'express-session'
 
-import indexRouter from './routes/index.js'
+import webHookRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 
 const app = express()
@@ -37,7 +37,7 @@ app.use(
 )
 
 // Routes
-app.use('/webhooks', indexRouter)
+app.use('/webhooks', webHookRouter)
 app.use('/webhooks/users', usersRouter)
 
 // 404 error handling
