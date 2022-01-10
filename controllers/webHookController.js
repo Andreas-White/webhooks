@@ -4,11 +4,11 @@ const webHook = (req, res) => {
   console.log('Request Headers:')
   console.log(req.headers)
 
-  let headers = req.headers
+  // let headers = req.headers
 
-  headers.forEach((head) => {
-    console.log(head + ' ----- ')
-  })
+  // headers.forEach((head) => {
+  //   console.log(head + ' ----- ')
+  // })
 
   // console.log('Request Headers token:')
   // console.log(req.headers.x-gitlab-token)
