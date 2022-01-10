@@ -2,6 +2,9 @@ const webHook = (req, res) => {
   console.log('Received webhook get request')
 
   console.log('Request Headers:')
+  console.log(req.headers)
+
+  console.log('Request Headers host:')
   console.log(req.headers.host)
 
   console.log('Request Body:')
