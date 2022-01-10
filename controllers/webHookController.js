@@ -5,14 +5,10 @@ const webHook = (req, res) => {
   console.log(req.headers)
 
   let headers = req.headers
-  let arrHeaders = []
 
   headers.forEach((head) => {
-    arrHeaders.push(head)
+    console.log(head + ' ----- ')
   })
-
-  console.log('New Headers:')
-  console.log(arrHeaders)
 
   // console.log('Request Headers token:')
   // console.log(req.headers.x-gitlab-token)
