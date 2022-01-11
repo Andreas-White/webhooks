@@ -3,6 +3,8 @@ import hbs from 'express-hbs'
 import dir from 'path'
 import logger from 'morgan'
 import session from 'express-session'
+import dotenv from 'dotenv'
+dotenv.config({ path: 'keys.env' })
 
 import mongoose from './config/mongoose.js'
 
@@ -39,7 +41,7 @@ app.use(
     name: 'snippets',
     resave: false,
     saveUninitialized: false,
-    secret: '*A&sd(Ddf*43&54*12Y43ud',
+    secret: process.env.SESSION_SECRET,
   })
 )
 

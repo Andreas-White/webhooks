@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config({ path: 'keys.env' })
 
-const uri =
-  'mongodb+srv://antwhite2420:Kwmik6MCPyzg47y@assignment2-1dv513.nqlmf.mongodb.net/demodb?retryWrites=true&w=majority'
+const uri = process.env.MONGO_DB_URI
 
 const connect = async (error) => {
   // Get notifications
@@ -20,10 +21,10 @@ const connect = async (error) => {
   // Connect to the server
   return mongoose.connect(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
 }
 
 export default {
-  connect
+  connect,
 }

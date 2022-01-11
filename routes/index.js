@@ -1,6 +1,8 @@
 import express from 'express'
 import controller from '../controllers/webHookController.js'
 import fetch from 'node-fetch'
+import dotenv from 'dotenv'
+dotenv.config({ path: 'keys.env' })
 
 const router = express.Router()
 
@@ -8,10 +10,10 @@ const router = express.Router()
 router.get('/', controller.webHook)
 
 router.get('/issue', async (req, res) => {
-  const url = 'https://gitlab.lnu.se/api/v4/projects/20151/issues'
+  const url = process.env.GITLAB_URL
 
   const headers = {
-    'PRIVATE-TOKEN': 'AjkME5VHNem5mXYSSrAX',
+    'PRIVATE-TOKEN': process.env.GITLAB_TOKEN,
   }
 
   let issues = await fetch(url, { method: 'GET', headers: headers })
