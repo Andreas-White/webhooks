@@ -4,11 +4,18 @@ import dir from 'path'
 import logger from 'morgan'
 import session from 'express-session'
 
+import mongoose from './config/mongoose.js'
+
 import webHookRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 
 const app = express()
 const __dirname = dir.resolve()
+
+mongoose.connect().catch((error) => {
+  console.log(error)
+  process.exit(1)
+})
 
 // Setup view engine.
 app.engine(
