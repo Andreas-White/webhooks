@@ -10,7 +10,7 @@ const webHook = (req, res) => {
   console.log('Request Body:')
   console.log(req.body)
 
-  res.sendStatus(200)
+  res.json(req.body)
 }
 
 export default {

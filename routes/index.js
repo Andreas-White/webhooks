@@ -7,7 +7,7 @@ const router = express.Router()
 router.get('/', controller.webHook)
 
 // router.get('/', function(req, res) {
-//   res.sendStatus(200);
+//   res.json();
 // })
 
 export default router
