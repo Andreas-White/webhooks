@@ -20,8 +20,8 @@ router.get('/issue', async (req, res) => {
     .then((res) => res.json())
     .catch((err) => console.log(err))
 
-  console.log(issues)
-  res.send(200)
+  //console.log(issues)
+  res.send(issues)
 })
 
 router.post('/', function (req, res, next) {

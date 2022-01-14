@@ -3,6 +3,8 @@ import hbs from 'express-hbs'
 import dir from 'path'
 import logger from 'morgan'
 import session from 'express-session'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import dotenv from 'dotenv'
 dotenv.config({ path: 'keys.env' })
 
@@ -13,6 +15,9 @@ import usersRouter from './routes/users.js'
 
 const app = express()
 const __dirname = dir.resolve()
+const SERVER_PORT = 3000
+const server = createServer(app)
+const socketio = new Server(server)
 
 mongoose.connect().catch((error) => {
   console.log(error)
@@ -49,6 +54,37 @@ app.use(
 app.use('/webhooks', webHookRouter)
 app.use('/webhooks/users', usersRouter)
 
+// sockets
+let nextVisitorNumber = 1
+const onlineClients = new Set()
+
+function generateRandomNumber() {
+  return Math.floor(Math.random() * 1000).toString()
+}
+
+function onNewWebsocketConnection(socket) {
+  console.info(`Socket ${socket.id} has connected.`)
+  onlineClients.add(socket.id)
+
+  socket.on('disconnect', () => {
+    onlineClients.delete(socket.id)
+    console.info(`Socket ${socket.id} has disconnected.`)
+  })
+
+  // echoes on the terminal every "hello" message this socket sends
+  socket.on('hello', (helloMsg) =>
+    console.info(`Socket ${socket.id} says: "${helloMsg}"`)
+  )
+
+  // will send a message only to this socket (different than using `io.emit()`, which would broadcast it)
+  socket.emit(
+    'welcome',
+    `Welcome! You are visitor number ${nextVisitorNumber++}`
+  )
+}
+
+socketio.on('connection', onNewWebsocketConnection)
+
 // 404 error handling
 app.use((req, res, next) => {
   res.status(404)
@@ -62,7 +98,7 @@ app.use((error, req, res, next) => {
 })
 
 // listen to port 3000
-app.listen(3000, () => {
+server.listen(SERVER_PORT, () => {
   console.log('Server started on http://localhost:3000')
   console.log('Press Ctrl-C to terminate...')
 })
