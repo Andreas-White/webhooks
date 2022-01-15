@@ -80,7 +80,6 @@
 
   socket.on('webhook-message', (message) => {
     onlineElement.setAttribute('style', 'visibility: visible')
-    onlineElement.setAttribute('style', 'background-color: #ccf')
     onlineElement.setAttribute('style', 'padding: 1rem')
     onlineElement.innerText = message
   })
