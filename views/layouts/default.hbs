@@ -79,7 +79,7 @@
   const onlineElement = document.getElementById('message')
 
   socket.on('webhook-message', (message) => {
-    onlineElement.style.padding = '1rem'
+    onlineElement.setAttribute('style', 'padding: 1rem')
     onlineElement.innerText = message
   })
 
