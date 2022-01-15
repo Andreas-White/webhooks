@@ -10,7 +10,7 @@ const signupForm = (req, res) => {
   req.session.flash = null
 
   res.render('signup', {
-    flash: flash
+    flash: flash,
   })
 }
 
@@ -29,7 +29,7 @@ const signupProcess = (req, res) => {
       if (!result) {
         const user = new model.User({
           name: userName,
-          password: password
+          password: password,
         })
 
         user
@@ -37,7 +37,7 @@ const signupProcess = (req, res) => {
           .then(() => {
             req.session.user = userName
             req.session.flash = `You have registered as '${userName}'.`
-            res.redirect(`/login/profile/${userName}`)
+            res.redirect(`/issue/${userName}`)
           })
           .catch((err) => {
             console.log(err)
@@ -57,5 +57,5 @@ const signupProcess = (req, res) => {
 
 export default {
   signupForm,
-  signupProcess
+  signupProcess,
 }
