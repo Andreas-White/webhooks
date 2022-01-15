@@ -1,6 +1,9 @@
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
 dotenv.config({ path: 'keys.env' })
+import dir from 'path'
+
+const __dirname = dir.resolve()
 
 const webHook = (req, res) => {
   console.log('Received webhook get request')
