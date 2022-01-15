@@ -14,20 +14,16 @@ const webHook = (req, res) => {
   console.log('Request Body:')
   console.log(req.body)
   global.io.emit('webhook', req.body)
-  global.io.emit('webhook-message', 'A new issue triggered')
+  if (secrettoken === req.headers['x-gitlab-token']) {
+    global.io.emit('webhook-message', 'A new issue was triggered by gitlab')
+  } else {
+    global.io.emit(
+      'webhook-message',
+      'A new issue was triggered, but it was not from by gitlab'
+    )
+  }
 
   res.end()
-
-  // res.json(req.body)
-  // const user = req.params.user
-
-  // if (secrettoken === req.headers['x-gitlab-token']) {
-  //   req.session.flash = 'A webhook was triggered by Gitlab'
-  // } else {
-  //   req.session.flash = 'A webhook was triggered, but not from Gitlab'
-  // }
-
-  // res.redirect(`/issues/${user}`)
 }
 
 const issues = async (req, res) => {
