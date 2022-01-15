@@ -18,7 +18,7 @@ const webHook = (req, res) => {
 
   // res.json(req.body)
   const user = req.params.user
-  let flash
+  let flash = 'A webhook was triggered by Gitlab'
 
   if ('secrettoken' === req.headers['x-gitlab-token']) {
     flash = 'A webhook was triggered by Gitlab'
