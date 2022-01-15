@@ -78,9 +78,12 @@
 
   const onlineElement = document.getElementById('message')
 
-  socket.on('webhook-message', (message) => (onlineElement.innerText = message))
+  socket.on('webhook-message', (message) => {
+    onlineElement.style.padding = '1rem'
+    onlineElement.innerText = message
+  })
 
-  socket.on('webhook', (online) => {
+  socket.on('webhook', (online) => { 
     let title = document.createElement('h3')
     title.innerText = 'Title: ' + online.object_attributes.title
     let projectId = document.createElement('p')

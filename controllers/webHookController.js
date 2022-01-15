@@ -14,7 +14,7 @@ const webHook = (req, res) => {
   console.log('Request Body:')
   console.log(req.body)
   global.io.emit('webhook', req.body)
-  global.io.emit('webhook-message', 'a new issue triggered')
+  global.io.emit('webhook-message', 'A new issue triggered')
 
   res.end()
 
