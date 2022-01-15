@@ -18,18 +18,14 @@ const webHook = (req, res) => {
 
   // res.json(req.body)
   const user = req.params.user
-  let flash
 
   if (secrettoken === req.headers['x-gitlab-token']) {
-    flash = 'A webhook was triggered by Gitlab'
+    req.session.flash = 'A webhook was triggered by Gitlab'
   } else {
-    flash = 'A webhook was triggered, but not from Gitlab'
+    req.session.flash = 'A webhook was triggered, but not from Gitlab'
   }
 
-  res.render('issues', {
-    flash: flash,
-    user: user,
-  })
+  res.redirect(`/issues/${user}`)
 }
 
 const issues = async (req, res) => {
