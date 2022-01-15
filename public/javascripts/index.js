@@ -1,26 +1,6 @@
-//const fetch = require('node-fetch')
-
-async function ajax(url) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest()
-    request.addEventListener('load', function () {
-      try {
-        resolve(this.responseText)
-      } catch (error) {
-        reject(error)
-      }
-    })
-    request.open('GET', url)
-    request.send()
-    request.addEventListener('error', reject)
-  })
-}
-
 /** @returns {void} */
 async function main() {
   // call sample API
-  // let host = await ajax('/webhooks')
-  // document.getElementById('random-number').innerText = host
   let issues = await fetch('/webhooks/issue', {
     method: 'get',
   })
@@ -35,7 +15,7 @@ async function main() {
 
   console.log(issues)
   console.log(issues[0].created_at)
-  document.getElementById('random-number').innerText = issues[0].created_at
+  document.getElementById('random-number').innerText = JSON.stringify(issues)
 
   const socket = io()
   socket.on('connect', () =>
@@ -55,7 +35,10 @@ async function main() {
   )
 
   const onlineElement = document.getElementById('online')
-  socket.on('online', (online) => (onlineElement.innerText = online.toString()))
+  socket.on('online', (online) => {
+    console.log(online)
+    onlineElement.innerText += JSON.stringify(online)
+  })
 }
 
 main()

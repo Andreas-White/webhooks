@@ -58,10 +58,6 @@ app.use('/webhooks/users', usersRouter)
 let nextVisitorNumber = 1
 const onlineClients = new Set()
 
-function generateRandomNumber() {
-  return Math.floor(Math.random() * 1000).toString()
-}
-
 function onNewWebsocketConnection(socket) {
   console.info(`Socket ${socket.id} has connected.`)
   onlineClients.add(socket.id)
@@ -84,6 +80,15 @@ function onNewWebsocketConnection(socket) {
 }
 
 socketio.on('connection', onNewWebsocketConnection)
+
+global.io = socketio
+
+let secondsSinceServerStarted = 0
+setInterval(() => {
+  secondsSinceServerStarted++
+  socketio.emit('seconds', secondsSinceServerStarted)
+  // socketio.emit('online', onlineClients.size)
+}, 1000)
 
 // 404 error handling
 app.use((req, res, next) => {
