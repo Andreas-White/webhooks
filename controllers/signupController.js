@@ -37,7 +37,7 @@ const signupProcess = (req, res) => {
           .then(() => {
             req.session.user = userName
             req.session.flash = `You have registered as '${userName}'.`
-            res.redirect(`/issue/${userName}`)
+            res.redirect(`/issues/${userName}`)
           })
           .catch((err) => {
             console.log(err)
