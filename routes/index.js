@@ -8,8 +8,4 @@ router.get('/', controller.webHook)
 
 router.get('/issue', controller.issues)
 
-// router.post('/', function (req, res, next) {
-//   console.log(req.body)
-// })
-
 export default router

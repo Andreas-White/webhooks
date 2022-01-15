@@ -13,10 +13,23 @@ const webHook = (req, res) => {
 
   console.log('Request Body:')
   console.log(req.body)
-  global.io.emit('webhook', req.body)
-  global.io.emit('webhook-message', 'a new issue triggered')
+  // global.io.emit('webhook', req.body)
+  // global.io.emit('webhook-message', 'a new issue triggered')
 
-  res.json(req.body)
+  // res.json(req.body)
+  const user = req.params.user
+  let flash
+
+  if (secrettoken === req.headers['x-gitlab-token']) {
+    flash = 'A webhook was triggered by Gitlab'
+  } else {
+    flash = 'A webhook was triggered, but not from Gitlab'
+  }
+
+  res.render('issues', {
+    flash: flash,
+    user: user,
+  })
 }
 
 const issues = async (req, res) => {
@@ -30,8 +43,6 @@ const issues = async (req, res) => {
     .then((res) => res.json())
     .catch((err) => console.log(err))
 
-  console.log(issues[0].created_at)
-  global.io.emit('online', issues[0])
   res.send(issues)
 }
 

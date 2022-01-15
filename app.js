@@ -10,8 +10,10 @@ dotenv.config({ path: 'keys.env' })
 
 import mongoose from './config/mongoose.js'
 
+import homeRouter from './routes/home.js'
+import loginRouter from './routes/login.js'
+import signupRouter from './routes/signup.js'
 import webHookRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
 
 const app = express()
 const __dirname = dir.resolve()
@@ -51,8 +53,10 @@ app.use(
 )
 
 // Routes
+app.use('/', homeRouter)
+app.use('/login', loginRouter)
+app.use('/signup', signupRouter)
 app.use('/webhooks', webHookRouter)
-app.use('/webhooks/users', usersRouter)
 
 // sockets
 let nextVisitorNumber = 1
@@ -73,10 +77,7 @@ function onNewWebsocketConnection(socket) {
   )
 
   // will send a message only to this socket (different than using `io.emit()`, which would broadcast it)
-  socket.emit(
-    'welcome',
-    `Welcome! You are visitor number ${nextVisitorNumber++}`
-  )
+  socket.emit('welcome', `You are visitor number ${nextVisitorNumber++}`)
 }
 
 socketio.on('connection', onNewWebsocketConnection)

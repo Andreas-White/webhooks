@@ -1,4 +1,3 @@
-/** @returns {void} */
 async function main() {
   // call sample API
   let issues = await fetch('/webhooks/issue', {
@@ -8,7 +7,6 @@ async function main() {
       return res.json()
     })
     .then((jsonData) => {
-      //console.log(JSON.parse(JSON.stringify(jsonData)))
       return JSON.parse(JSON.stringify(jsonData))
     })
     .catch((err) => console.log(err))
@@ -84,8 +82,6 @@ async function main() {
     issueInnerDiv.appendChild(name)
 
     issueDiv.appendChild(issueInnerDiv)
-    // console.log(online)
-    // onlineElement.innerText += JSON.stringify(online)
   })
 }
 
