@@ -15,7 +15,7 @@ const webHook = (req, res) => {
   console.log('Request Body:')
   console.log(req.body)
   global.io.emit('webhook', req.body)
-  if (secrettoken === token) {
+  if ('secrettoken' === token) {
     global.io.emit('webhook-message', 'A new issue was triggered by gitlab')
   } else {
     global.io.emit(
