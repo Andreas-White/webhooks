@@ -16,6 +16,8 @@ const webHook = (req, res) => {
   global.io.emit('webhook', req.body)
   global.io.emit('webhook-message', 'a new issue triggered')
 
+  res.end()
+
   // res.json(req.body)
   // const user = req.params.user
 
