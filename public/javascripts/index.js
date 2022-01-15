@@ -13,9 +13,31 @@ async function main() {
     })
     .catch((err) => console.log(err))
 
-  console.log(issues)
-  console.log(issues[0].created_at)
-  document.getElementById('random-number').innerText = JSON.stringify(issues)
+  let issueDiv = document.getElementById('issues')
+  issues.forEach((issue) => {
+    let title = document.createElement('h3')
+    title.innerText = 'Title: ' + issue.title
+    let projectId = document.createElement('p')
+    projectId.innerText = 'Project id : ' + issue.project_id
+    let state = document.createElement('p')
+    state.innerText = 'State : ' + issue.state
+    let description = document.createElement('p')
+    description.innerText = 'Description: ' + issue.description
+    let name = document.createElement('p')
+    name.innerText = 'Author name: ' + issue.author.name
+
+    let issueInnerDiv = document.createElement('div')
+    issueInnerDiv.setAttribute('style', 'margin: 1rem')
+    issueInnerDiv.setAttribute('style', 'background-color: aliceblue')
+
+    issueInnerDiv.appendChild(title)
+    issueInnerDiv.appendChild(projectId)
+    issueInnerDiv.appendChild(state)
+    issueInnerDiv.appendChild(description)
+    issueInnerDiv.appendChild(name)
+
+    issueDiv.appendChild(issueInnerDiv)
+  })
 
   const socket = io()
   socket.on('connect', () =>
@@ -34,10 +56,36 @@ async function main() {
     (welcomeMessage) => (welcomeElement.innerText = welcomeMessage)
   )
 
-  const onlineElement = document.getElementById('online')
-  socket.on('online', (online) => {
-    console.log(online)
-    onlineElement.innerText += JSON.stringify(online)
+  const onlineElement = document.getElementById('message')
+
+  socket.on('webhook-message', (message) => (onlineElement.innerText = message))
+
+  socket.on('webhook', (online) => {
+    let title = document.createElement('h3')
+    title.innerText = 'Title: ' + online.object_attributes.title
+    let projectId = document.createElement('p')
+    projectId.innerText = 'Project id : ' + online.object_attributes.project_id
+    let state = document.createElement('p')
+    state.innerText = 'State : ' + online.object_attributes.state
+    let description = document.createElement('p')
+    description.innerText =
+      'Description: ' + online.object_attributes.description
+    let name = document.createElement('p')
+    name.innerText = 'Author name: ' + online.user.name
+
+    let issueInnerDiv = document.createElement('div')
+    issueInnerDiv.setAttribute('style', 'margin: 1rem')
+    issueInnerDiv.setAttribute('style', 'background-color: aliceblue')
+
+    issueInnerDiv.appendChild(title)
+    issueInnerDiv.appendChild(projectId)
+    issueInnerDiv.appendChild(state)
+    issueInnerDiv.appendChild(description)
+    issueInnerDiv.appendChild(name)
+
+    issueDiv.appendChild(issueInnerDiv)
+    // console.log(online)
+    // onlineElement.innerText += JSON.stringify(online)
   })
 }
 
