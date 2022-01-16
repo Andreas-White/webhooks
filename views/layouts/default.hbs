@@ -3,6 +3,9 @@
     <title>Webhooks</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
   </head>
   <body style="background-color: #DDDDDD">
     {{>header}}
@@ -11,111 +14,6 @@
       {{>flash}}
       {{{body}}}
     </main>
-    {{>footer}}
-    <!-- this link is magically provided by socket.io -->
-    <script src='/socket.io/socket.io.js'></script>
-    <script type='module'>
-     async function main() {
-  // call sample API
-  let issues = await fetch('/webhooks/issue', {
-    method: 'get',
-  })
-    .then((res) => {
-      return res.json()
-    })
-    .then((jsonData) => {
-      return JSON.parse(JSON.stringify(jsonData))
-    })
-    .catch((err) => console.log(err))
-
-  let tableIssue = document.getElementById('issues')
-
-  let head = document.createElement('tr')
-  let headTitle = document.createElement('th')
-  headTitle.innerText = 'Title'
-  let headProjectId = document.createElement('th')
-  headProjectId.innerText = 'Project id'
-  let headState = document.createElement('th')
-  headState.innerText = 'State'
-  let headDescription = document.createElement('th')
-  headDescription.innerText = 'Description'
-  let headAuthor = document.createElement('th')
-  headAuthor.innerText = 'Author'
-
-  head.appendChild(headTitle)
-  head.appendChild(headProjectId)
-  head.appendChild(headState)
-  head.appendChild(headDescription)
-  head.appendChild(headAuthor)
-
-  tableIssue.appendChild(head)
-
-  issues.forEach((issue) => {
-    let title = document.createElement('td')
-    title.innerText = issue.title
-    let projectId = document.createElement('td')
-    projectId.innerText = issue.project_id
-    let state = document.createElement('td')
-    state.innerText = issue.state
-    let description = document.createElement('td')
-    description.innerText = issue.description
-    let name = document.createElement('td')
-    name.innerText = issue.author.name
-
-    let bodyRow = document.createElement('tr')
-
-    bodyRow.appendChild(title)
-    bodyRow.appendChild(projectId)
-    bodyRow.appendChild(state)
-    bodyRow.appendChild(description)
-    bodyRow.appendChild(name)
-
-    tableIssue.appendChild(bodyRow)
-  })
-
-  const socket = io()
-  socket.on('connect', () =>
-    socket.emit('hello', `Hi there! I am ${window.navigator.userAgent}`)
-  )
-
-  const secondsElement = document.getElementById('seconds')
-  socket.on(
-    'seconds',
-    (seconds) => (secondsElement.innerText = seconds.toString())
-  )
-
-  const onlineElement = document.getElementById('message')
-
-  socket.on('webhook-message', (message) => {
-    onlineElement.innerText = message
-  })
-
-  socket.on('webhook', (online) => { 
-    let title = document.createElement('td')
-    title.innerText =  online.object_attributes.title
-    let projectId = document.createElement('td')
-    projectId.innerText =  online.object_attributes.project_id
-    let state = document.createElement('td')
-    state.innerText =  online.object_attributes.state
-    let description = document.createElement('td')
-    description.innerText = online.object_attributes.description
-    let name = document.createElement('td')
-    name.innerText =  online.user.name
-
-    let bodyRow = document.createElement('tr')
-
-    bodyRow.appendChild(title)
-    bodyRow.appendChild(projectId)
-    bodyRow.appendChild(state)
-    bodyRow.appendChild(description)
-    bodyRow.appendChild(name)
-
-    tableIssue.appendChild(bodyRow)
-  })
-}
-
-main()
-
-    </script>
+    {{>footer}} 
   </body>
 </html>

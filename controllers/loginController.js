@@ -13,11 +13,11 @@ const loginForm = (req, res) => {
   })
 }
 
-const loginProcess = (req, res) => {
+const loginProcess = async (req, res) => {
   const user = req.body.user
   const password = req.body.password
 
-  model.User.findOne({
+  await model.User.findOne({
     name: user,
   })
     .then((result) => {

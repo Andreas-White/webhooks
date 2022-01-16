@@ -18,13 +18,13 @@ const signupForm = (req, res) => {
  * @param req
  * @param res
  */
-const signupProcess = (req, res) => {
+const signupProcess = async (req, res) => {
   const saltRounds = 10
 
   const userName = req.body.user
   const password = bcrypt.hashSync(req.body.password, saltRounds)
 
-  model.User.findOne({ name: userName })
+  await model.User.findOne({ name: userName })
     .then((result) => {
       if (!result) {
         const user = new model.User({

@@ -59,22 +59,12 @@ app.use('/signup', signupRouter)
 app.use('/webhooks', webHookRouter)
 
 // sockets
-let nextVisitorNumber = 1
-const onlineClients = new Set()
-
 function onNewWebsocketConnection(socket) {
   console.info(`Socket ${socket.id} has connected.`)
-  onlineClients.add(socket.id)
 
   socket.on('disconnect', () => {
-    onlineClients.delete(socket.id)
     console.info(`Socket ${socket.id} has disconnected.`)
   })
-
-  // echoes on the terminal every "hello" message this socket sends
-  socket.on('hello', (helloMsg) =>
-    console.info(`Socket ${socket.id} says: "${helloMsg}"`)
-  )
 }
 
 socketio.on('connection', onNewWebsocketConnection)
@@ -85,7 +75,6 @@ let secondsSinceServerStarted = 0
 setInterval(() => {
   secondsSinceServerStarted++
   socketio.emit('seconds', secondsSinceServerStarted)
-  // socketio.emit('online', onlineClients.size)
 }, 1000)
 
 // 404 error handling
