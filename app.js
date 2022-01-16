@@ -75,9 +75,6 @@ function onNewWebsocketConnection(socket) {
   socket.on('hello', (helloMsg) =>
     console.info(`Socket ${socket.id} says: "${helloMsg}"`)
   )
-
-  // will send a message only to this socket (different than using `io.emit()`, which would broadcast it)
-  socket.emit('welcome', `You are visitor number ${nextVisitorNumber++}`)
 }
 
 socketio.on('connection', onNewWebsocketConnection)

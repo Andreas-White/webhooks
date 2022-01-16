@@ -35,23 +35,6 @@ const loginProcess = (req, res) => {
     })
 }
 
-// const profile = (req, res) => {
-//   const user = req.params.user
-//   const flash = req.session.flash
-//   req.session.flash = null
-
-//   if (req.session.user !== user) {
-//     req.session.flash =
-//       'You have to login if already have an account or sign up to create one, in order to access forbidden resources'
-//     res.sendFile(dir.join(__dirname, 'public', 'html', 'errors', '403.html'))
-//   }
-
-//   res.render('user', {
-//     flash: flash,
-//     user: user,
-//   })
-// }
-
 const logoutForm = (req, res) => {
   if (!req.session.user) {
     req.session.flash =
@@ -65,14 +48,13 @@ const logoutForm = (req, res) => {
 
 const logoutProcess = (req, res) => {
   req.session.user = null
-  req.session.flash = 'You have now logged out.'
+  req.session.flash = 'You have logged out.'
   res.redirect('/')
 }
 
 export default {
   loginForm,
   loginProcess,
-  // profile,
   logoutForm,
   logoutProcess,
 }

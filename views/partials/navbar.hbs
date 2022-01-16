@@ -1,21 +1,16 @@
 {{#if user}}
-  <nav
-    class='navbar navbar-expand-lg navbar-dark bg-dark'
-    style='margin: 0 0 2rem 0;'
-  >
-    <a href='/' class='nav-item nav-link'>Home</a>
-    <a href='/issues/{{user}}' class='nav-item nav-link'>Check Issues</a>
-    <a href='/login/logout' class='nav-item nav-link'>Logout</a>
+  <nav class='navbar navbar-dark bg-dark' style='margin: 0 0 2rem 0; '>
+    <a href='/' class='nav-link' style='color: white;'>Home</a>
+    <a href='/issues/{{user}}' class='nav-link' style='color: white;'>Check
+      Issues</a>
+    <a href='/login/logout' class='nav-link' style='color: white;'>Logout</a>
   </nav>
 {{/if}}
 
 {{#unless user}}
-  <nav
-    class='navbar navbar-expand-lg navbar-dark bg-dark'
-    style='margin: 0 0 2rem 0;'
-  >
-    <a href='/' class='nav-item nav-link'>Home</a>
-    <a href='/login' class='nav-item nav-link'>login</a>
-    <a href='/signup' class='nav-item nav-link'>sign up</a>
+  <nav class='navbar navbar-dark bg-dark' style='margin: 0 0 2rem 0;'>
+    <a href='/' class='nav-link' style='color: white;'>Home</a>
+    <a href='/login' class='nav-link' style='color: white;'>login</a>
+    <a href='/signup' class='nav-link' style='color: white;'>sign up</a>
   </nav>
 {{/unless}}
